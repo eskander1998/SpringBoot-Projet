@@ -79,6 +79,7 @@ public class ClientRestController {
 		Float CA =clientService.getChiffreAffaireParCategorieClient(categorieClient,StartDate,endDate);
 	 return CA;
 	}
+	
 	//methode2
 	@GetMapping("/chiffre-affaire-by-cat2/{categorie-client}/{start}/{end}")
 	@ResponseBody
