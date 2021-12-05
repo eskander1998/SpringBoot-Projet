@@ -17,9 +17,11 @@ public interface IClientService {
 	 Client updateClientById(Client u,Long id);
 	 
 	 float getChiffreAffaireParCategorieClient(CategorieClient categorieClient,Date StartDate,Date endDate);
-	 
+	 float getMoneySpentByOneClient(Long idClient);
 	 List<Client> retrieveClientbyProfession(Profession Profession);
 	 List<Client> retrieveClientbyCategorie(CategorieClient CategorieClient);
+	 List<Client> retrieveClientbyCategorieAndProfession(Profession Profession , CategorieClient CategorieClient);
+
 	 // Long updateClientByProfession(CategorieClient c,Profession f);
 	 Client retrieveClient(long id);
 	 

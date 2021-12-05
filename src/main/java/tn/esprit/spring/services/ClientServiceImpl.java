@@ -90,26 +90,32 @@ public class ClientServiceImpl implements IClientService {
 
 	//Methode qui met a jour la categorie des clients chaque 30 min en fonction du nombre d'achat qu'ils ont effectué
 	//En fonction du nombre d'achat, leur catégorie change et il reçoive un code promo par mail pour leur prochains achats
+	//@Scheduled(cron = "*/20 * * * * *")
+	
 	@Scheduled(cron = "0 0/30 * * * *")
 	@Override
 	public int updateCategorieClient()
 	{	
 		List<Client> Clients = (List<Client>) clientRepository.findAll();
 		for(Client client: Clients){
-			System.out.println("clients +++: " + client );
+		//	System.out.println("clients +++: " + client );
 			
-		
+		System.out.println("verif de la categorie");
 			if(client.getFactures().size()<=3 && client.getCategorieClient()!=CategorieClient.ORDINAIRE )
 			{
 			
+				System.out.println("le client "+client.getNom()+" "+client.getPrenom()+" a "+client.getFactures().size()+" factures");
 				clientRepository.updateCategorieClient(client.getIdClient(),CategorieClient.ORDINAIRE);
 			
 			}
-			 if(client.getFactures().size()>3 && client.getCategorieClient()!=CategorieClient.FIDELE)
+			 if(client.getFactures().size()>=4 && client.getFactures().size()<=5  && client.getCategorieClient()!=CategorieClient.FIDELE)
 			{
 				String text="Bonjour "+client.getPrenom()+" "+client.getNom()+".\n\nVous êtes désormais un client "
 						+ "fidéle chez Best Shop. Pour vous remercier de voter confiance, vous bénéficierez d'une remise de 5% pour "
 						+ "tout vos prochains achat.\n\n Merci et à bientôt";
+				
+				System.out.println("le client "+client.getNom()+" "+client.getPrenom()+" a "+client.getFactures().size()+" factures");
+
 				
 				clientRepository.updateCategorieClient(client.getIdClient(),CategorieClient.FIDELE);
 				 
@@ -122,12 +128,14 @@ public class ClientServiceImpl implements IClientService {
 					}
 
 			}
-			 if(client.getFactures().size()>5 && client.getCategorieClient()!=CategorieClient.PREMIUM)
+			 if(client.getFactures().size()>=6 && client.getCategorieClient()!=CategorieClient.PREMIUM)
 			{
 				String text="Bonjour "+client.getPrenom()+" "+client.getNom()+".\n\nVous êtes désormais un client "
 						+ "fidéle chez Best Shop. Pour vous remercier de voter confiance, vous bénéficierez d'une remise de 10% pour "
 						+ "tout vos prochains achat.\n\n Merci et à bientôt";
 				
+				System.out.println("le client "+client.getNom()+" "+client.getPrenom()+" a "+client.getFactures().size()+" factures");
+
 				clientRepository.updateCategorieClient(client.getIdClient(),CategorieClient.PREMIUM);
 
 				
@@ -199,9 +207,9 @@ public class ClientServiceImpl implements IClientService {
 	 }
 	
 	@Override
-	public List<Client> retrieveClientbyCategorie(CategorieClient CategorieClient) {
-
-	return clientRepository.retrieveClientByCategorie(CategorieClient);
+	public List<Client> retrieveClientbyCategorie(CategorieClient categorieClient) {
+	return clientRepository.retrieveClientByCategorie(categorieClient);
+		
 			    
 	}
 	
@@ -259,7 +267,7 @@ clientRepository.save(u);
 		return u;		
 	}
 
-	/*
+	 /*
 	@Scheduled(fixedRate = 60000)
 	@Override
 	public void statut_stock(){
@@ -274,5 +282,27 @@ clientRepository.save(u);
 	    }
 	        }
 	*/
+	
+	public List<Client> retrieveClientbyCategorieAndProfession(Profession Profession , CategorieClient CategorieClient)
+	 {
+		 
+		return clientRepository.retrieveClientByProfessionANDcategorie(Profession, CategorieClient)	 ;
+	
+	 }
+
+	 public float getMoneySpentByOneClient(Long idClient){
+		 
+		 List<Facture> factures = clientRepository.FactureParClient(idClient);
+		 float totale=0;
+		 
+			for(Facture facture: factures){
+						
+			totale = totale+ facture.getMontantFacture();
+		
+				}
+			 return totale;
+			 
+	 }
+
 
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column; 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -58,7 +59,7 @@ private Profession profession;
 private CategorieClient categorieClient;
 
 @JsonIgnore
-@OneToMany(mappedBy="client")
+@OneToMany(mappedBy="client",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 private Set<Facture> factures;
 
 

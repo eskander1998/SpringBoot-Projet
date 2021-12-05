@@ -57,6 +57,9 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 	List<Client> retrieveClientByProfession(@Param("profession") Profession Profession);
 	
 	
+	@Query("SELECT c FROM Client c WHERE c.profession= :profession and  c.categorieClient= :categorie")
+	List<Client> retrieveClientByProfessionANDcategorie(@Param("profession") Profession Profession,@Param("categorie") CategorieClient CategorieClient);
+	
 	@Query("SELECT COUNT(c) FROM Client c ")
 	int coutnbreClient();
 	
@@ -70,7 +73,9 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 	@Query("SELECT c.factures FROM Client c WHERE c.idClient= :idClient")
 	List<Facture> FactureParClient(@Param("idClient") Long idClient);
 	
-
+	@Query("SELECT c FROM Client c WHERE c.idClient= :idClient")
+	List<Client> ClientById(@Param("idClient") Long idClient);
+	
 	@Modifying
 	@Query(value = "INSERT INTO Client (nom, prenom,dateNaissance,email,password,profession,categorieClient) VALUES (:nom, :prenom, :dateN, :email, :password, :profession, :categorieClient)",
 	nativeQuery = true)

@@ -71,12 +71,26 @@ public class ClientRestController {
 	 return list;
 	}
 	
+	@GetMapping("/client/{client-id}")
+	@ResponseBody
+	public  Client clientById(@PathVariable("client-id") Long clientId) {
+	 Client list =clientService.retrieveClient(clientId);
+	 
+	 return list;
+	}
 	
 	//methode1
 	@GetMapping("/chiffre-affaire-by-cat/{categorie-client}/{start}/{end}")
 	@ResponseBody
 	public  float getChiffreAffaireParCategorieClient(@PathVariable("categorie-client")  CategorieClient categorieClient,@PathVariable("start")  @DateTimeFormat(pattern="yyyy-MM-dd") Date StartDate,@PathVariable("end")@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
 		Float CA =clientService.getChiffreAffaireParCategorieClient(categorieClient,StartDate,endDate);
+	 return CA;
+	}
+	
+	@GetMapping("/chiffre-affaire-by-client/{idclient}")
+	@ResponseBody
+	public  float getChiffreAffaireParClient(@PathVariable("idclient")  Long id) {
+		Float CA =clientService.getMoneySpentByOneClient(id);
 	 return CA;
 	}
 	
@@ -117,8 +131,9 @@ public class ClientRestController {
 	
 	@GetMapping("/retrieve-client-byCategorieClient/{categorie-client}")
 	@ResponseBody
-	public List<Client> retrieveClientbyCategorie(@PathVariable("categorie-client") CategorieClient CategorieClient) {
-		return	clientService.retrieveClientbyCategorie(CategorieClient);
+	public List<Client> retrieveClientbyCategorie(@PathVariable("categorie-client") CategorieClient categorieClient) {
+	
+				 return  clientService.retrieveClientbyCategorie(categorieClient);
 	}
 	
 	@GetMapping("/retrieve-client-byProfession/{profession}")
@@ -127,6 +142,11 @@ public class ClientRestController {
 		return	clientService.retrieveClientbyProfession(Profession);
 	}
 	
+	@GetMapping("/retrieve-client-byProfession-and-cat/{profession}/{categorie-client}")
+	@ResponseBody
+	public List<Client> retrieveClientbyProfessionAndCat(@PathVariable("profession") Profession Profession,@PathVariable("categorie-client") CategorieClient categorieClient) {
+		return	clientService.retrieveClientbyCategorieAndProfession(Profession, categorieClient);
+	}
 	// http://localhost:8089/SpringMVC/client/modify-client
 	@PutMapping("/modify-client")
 	@ResponseBody
