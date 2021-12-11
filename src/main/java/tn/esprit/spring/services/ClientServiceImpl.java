@@ -26,26 +26,9 @@ public class ClientServiceImpl implements IClientService {
 	EmailServiceImpl emailService;
 	@Autowired
 	FactureRepository FactureRepo;
-	@Autowired
-	StockRepository StockRepository ;
 	
-	//private static final Logger L = LogManager.getLogger(ProduitServiceImpl.class);
-/*	
-	public List<Client> retrieveAllClientsFromDB(Profession Profession){
-		return clientRepository.retrieveAllClientsByProfession(Profession);
-		
-	}
-*/
-	/*@Scheduled(fixedRate = 60000)
-	public void fixedRateMethod() {
-	System.out.println("Method with fixed");
-	}
-	*/
-//	@Scheduled(cron = "*/60 * * * * *")
-	//public void cron1() {
-	//System.out.println("cron */60 ");
-	//}
 	
+
 	//methode1
 	 public  float getChiffreAffaireParCategorieClient(CategorieClient categorieClient,Date StartDate,Date endDate)
 	 {
@@ -73,7 +56,7 @@ public class ClientServiceImpl implements IClientService {
 	 {
 		 List<Facture> Factures = (List<Facture>) clientRepository.FactureClientByCategorie(categorieClient);
 
-		 float totale=0;
+		 float totale=0; 
 		 
 		for(Facture facture: Factures){
 					
@@ -267,7 +250,7 @@ clientRepository.save(u);
 		return u;		
 	}
 
-	 /*
+	  /*
 	@Scheduled(fixedRate = 60000)
 	@Override
 	public void statut_stock(){
@@ -281,8 +264,14 @@ clientRepository.save(u);
 	        			 
 	    }
 	        }
-	*/
-	
+	*//*
+	@Scheduled(cron = "0 0 1 1 *")
+	@Override
+	public	float revenueMagasin(){
+		float revenue =FactureRepository.revenueMagasin();
+		return revenue;
+	}*/
+
 	public List<Client> retrieveClientbyCategorieAndProfession(Profession Profession , CategorieClient CategorieClient)
 	 {
 		 
@@ -304,5 +293,15 @@ clientRepository.save(u);
 			 
 	 }
 
+	 public int statClientByCat(CategorieClient cat){
+		 return clientRepository.statClientByCat(cat);
+	 }
 
+	 
+	 public List<Produit> ListProduitByFacture( Long idClient,Long idFacture){
+			
+		 return clientRepository.ListProduitByFacture(idClient,idFacture);
+	 }
+
+	
 }

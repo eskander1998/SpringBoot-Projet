@@ -161,5 +161,31 @@ public class ClientRestController {
 	}
 	
 	
+	@GetMapping("/client-fidele")
+	@ResponseBody
+	public int ClientFidele() {
+	
+				 return  clientService.statClientByCat(CategorieClient.FIDELE) ;
+	}
+	
+	@GetMapping("/client-premium")
+	@ResponseBody
+	public int ClientPremium() {
+	
+				 return  clientService.statClientByCat(CategorieClient.PREMIUM) ;
+	}
+	
+	@GetMapping("/client-ordinaire")
+	@ResponseBody
+	public int ClientOrdinaire() {
+	
+				 return  clientService.statClientByCat(CategorieClient.ORDINAIRE) ;
+	}
+	
+	@GetMapping("/Produit-by-client/{client}/{facture}")
+	@ResponseBody
+	public List<Produit> ListProduitByFacture(@PathVariable("client") Long idClient,@PathVariable("facture") Long idfacture){
+		 return clientService.ListProduitByFacture(idClient,idfacture);
+	 }
 	
 }

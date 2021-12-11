@@ -4,6 +4,7 @@ C:\Esprit\Spring\TP1-Spring-Boot2\src\main\java\tn\esprit\spring\DAO\entites\Ray
 C:\Esprit\Spring\TP1-Spring-Boot2\src\main\java\tn\esprit\spring\DAO\entites\Fournisseur.java
 C:\Esprit\Spring\TP1-Spring-Boot2\src\main\java\tn\esprit\spring\services\StockServiceImp.java
 C:\Esprit\Spring\TP1-Spring-Boot2\src\main\java\tn\esprit\spring\DAO\entites\Client.java
+C:\Esprit\Spring\TP1-Spring-Boot2\src\main\java\tn\esprit\spring\repository\FactureRepository.java
 C:\Esprit\Spring\TP1-Spring-Boot2\src\main\java\tn\esprit\spring\DAO\entites\Facture.java
 C:\Esprit\Spring\TP1-Spring-Boot2\src\main\java\tn\esprit\spring\repository\ClientRepository.java
 C:\Esprit\Spring\TP1-Spring-Boot2\src\main\java\tn\esprit\spring\services\DetailFactureServiceImpl.java

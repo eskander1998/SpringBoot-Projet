@@ -19,28 +19,7 @@ import tn.esprit.spring.DAO.entites.Profession;
 
 @Repository()
 public interface ClientRepository extends CrudRepository<Client, Long> {
-/*
-	@Query("select c from Client c where c.Profession=?1")
-	List<Client> retrieveAllClientsByProfession(Profession profession);
-	*/ 
-	/*@Query("select c from Client c where c.dateNaissance BETWEEN :debut and :fin")
-	List<Client> retrieveAllClientsByBirthday(@Param("debut") Date debut, @Param("fin") Date fin);*/
-	//@GetMapping
-	//@Query("select c from Client c")
-//	List<Client> retrieveAllClientsByBirthday(@Param("debut") Date debut, @Param("fin") Date fin);
-	
-	
-/*	@Modifying
-	@Query("update Client c set c.categorieClient = :categorie where u.profession =:profession")
-	Long updateClientCategorieByProfession(@Param("categorie") CategorieClient
-	categorieClient, @Param("profession") Profession profession);
-	
-	@Modifying
-	@Query("DELETE FROM Client c WHERE c.categorieClient= :categorie AND c.profession = :profession")
-	Long deleteClientByCategorieClientAndProfession(@Param("categorie")
-	CategorieClient categorieClient, @Param("profession") Profession profession);
-	*/
-	
+
 	@Transactional
 	@Modifying
 	@Query("update Client c set c.categorieClient = :categorie where c.idClient= :idClient")
@@ -53,8 +32,14 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 	@Query("SELECT c FROM Client c WHERE c.categorieClient= :categorie")
 	List<Client> retrieveClientByCategorie(@Param("categorie") CategorieClient CategorieClient);
 	
+	//@Query("SELECT sum(c.idClient) FROM Client c order by c.categorieClient")
+	//int statCatClient();
+	
 	@Query("SELECT c FROM Client c WHERE c.profession= :profession")
 	List<Client> retrieveClientByProfession(@Param("profession") Profession Profession);
+	
+	@Query("SELECT COUNT(c.idClient) FROM Client c WHERE c.categorieClient= :categorie")
+	int statClientByCat(@Param("categorie") CategorieClient CategorieClient);
 	
 	
 	@Query("SELECT c FROM Client c WHERE c.profession= :profession and  c.categorieClient= :categorie")
@@ -62,10 +47,7 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 	
 	@Query("SELECT COUNT(c) FROM Client c ")
 	int coutnbreClient();
-	
-/*	@Query("SELECT COUNT(f.idFacture) FROM Client c , Facture f WHERE c.idClient= :idClient and f.client= :client")
-	int countFactureParClient(@Param("idClient") Long idClient,@Param("client") Client c);
-	*/
+
 	
 	@Query("SELECT c.factures FROM Client c WHERE c.categorieClient= :categorie")
 	List<Facture> FactureClientByCategorie(@Param("categorie") CategorieClient CategorieClient);
@@ -83,6 +65,10 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 	@Param("dateN") Date dateNaissance, @Param("email") String email,
 	@Param("password") String password, @Param("profession") Profession
 	profession, @Param("categorieClient") CategorieClient categorieClient);
+	
+	
+	@Query("SELECT df.Produit FROM DetailFacture df,Client c ,Facture f WHERE (c.idClient= :idclient) and (f.client.idClient= :idclient) and (f.idFacture=:idfacture) and(df.factures.idFacture=:idfacture)")
+	List<Produit> ListProduitByFacture(@Param("idclient") Long idClient,@Param("idfacture") Long idfacture);
 	
 	
 }
